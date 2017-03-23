@@ -1,0 +1,6 @@
+services:
+
+    nps.payment.service:
+        class: Amulen\NpsBundle\Service\PaymentService
+        arguments:
+          - "@router"

@@ -1,0 +1,19 @@
+{
+  "name": "amulen/nps-bundle",
+  "description": "NPS lib.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Juan Manuel Aguero",
+      "email": "juanma.aguero@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "amulen/settings-bundle": "^0.1"
+  }
+}
