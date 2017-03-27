@@ -29,6 +29,16 @@ class PaymentService
     }
 
     /**
+     * @param $params
+     * @return mixed|null
+     */
+    public function simpleQueryTx($params)
+    {
+        $resp = $this->client->call(Operation::SIMPLE_QUERY_TX, $params);
+        return $resp;
+    }
+
+    /**
      * @return SoapClient
      */
     public function getClient(): SoapClient
