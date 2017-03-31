@@ -24,4 +24,10 @@ class Operation
     const SPLIT_PAY_ONLINE_3P = "SplitPayOnLine_3p";
     const BANK_PAYMENT_2P = "BankPayment_2p";
     const SPLIT_PAY_ONLINE_2P = "SplitPayOnLine_2p";
+
+    const PRODUCT_VISA = "14";
+    const PRODUCT_MASTERCARD = "5";
+    const PRODUCT_AMERICAN_EXPRESS = "1";
+    const PRODUCT_DINERS = "2";
+
 }
