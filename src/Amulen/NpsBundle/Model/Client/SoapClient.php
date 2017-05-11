@@ -40,10 +40,11 @@ class SoapClient extends \SoapClient
     /**
      * @param $method
      * @param array $params
+     * @param array $options
      * @return mixed|null
      * @throws ApiException
      */
-    public function call($method, $params = [])
+    public function call($method, $params = [], $options = [])
     {
         $response = null;
 
@@ -55,7 +56,7 @@ class SoapClient extends \SoapClient
                 $params = $this->addSecureHash($params, $this->getSecretKey());
             }
 
-            $response = $this->__soapCall($method, [$params]);
+            $response = $this->__soapCall($method, [$params], $options);
 
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage());

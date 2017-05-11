@@ -20,11 +20,12 @@ class PaymentService
 
     /**
      * @param $params
+     * @param $options
      * @return mixed|null
      */
-    public function payOnline3p($params)
+    public function payOnline3p($params, $options)
     {
-        $resp = $this->client->call(Operation::PAY_ONLINE_3P, $params);
+        $resp = $this->client->call(Operation::PAY_ONLINE_3P, $params, $options);
         return $resp;
     }
 
