@@ -30,12 +30,16 @@ class SoapClient extends \SoapClient
      */
     protected $secretKey;
 
-    public function __construct($wsdlUrl)
+    /**
+     * @var string
+     */
+    protected $logger;
+
+    public function __construct($wsdlUrl, $options = [])
     {
         $this->wsdl = $wsdlUrl;
-        parent::__construct($wsdlUrl, []);
+        parent::__construct($wsdlUrl, $options);
     }
-
 
     /**
      * @param $method
@@ -47,6 +51,7 @@ class SoapClient extends \SoapClient
     public function call($method, $params = [], $options = [])
     {
         $response = null;
+        $this->getLogger()->info('Soap call starts.');
 
         try {
 
@@ -57,8 +62,107 @@ class SoapClient extends \SoapClient
             }
 
             $response = $this->__soapCall($method, [$params], $options);
+            $this->getLastRequest();
+            $this->getLastRequestHeaders();
+            $this->getLastResponse();
+            $this->getLastResponseHeaders();
 
         } catch (\Exception $e) {
+            $msg = 'Error code: '.$e->getCode().'. Error message: '.$e->getMessage();
+            $this->getLogger()->critical($msg);
+            throw new ApiException($e->getMessage());
+        }
+        $this->getLogger()->info('Soap call ends.');
+
+        return $response;
+    }
+
+    /**
+     * @return mixed|null
+     * @throws ApiException
+     */
+    public function getLastRequest()
+    {
+        $response = null;
+        $this->getLogger()->info('Soap last request.');
+
+        try {
+            $response = $this->__getLastRequest();
+            $msg = '[Last Request] - Response: '.$response;
+            $this->getLogger()->info($msg);
+
+        } catch (\Exception $e) {
+            $msg = '[Last Request] - Error code: '.$e->getCode().'. Error message: '.$e->getMessage();
+            $this->getLogger()->critical($msg);
+            throw new ApiException($e->getMessage());
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return mixed|null
+     * @throws ApiException
+     */
+    public function getLastRequestHeaders()
+    {
+        $response = null;
+        $this->getLogger()->info('Soap last request headers.');
+
+        try {
+            $response = $this->__getLastRequestHeaders();
+            $msg = '[Last Request headers] - Response: '.$response;
+            $this->getLogger()->info($msg);
+
+        } catch (\Exception $e) {
+            $msg = '[Last Request headers] - Error code: '.$e->getCode().'. Error message: '.$e->getMessage();
+            $this->getLogger()->critical($msg);
+            throw new ApiException($e->getMessage());
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return mixed|null
+     * @throws ApiException
+     */
+    public function getLastResponse()
+    {
+        $response = null;
+        $this->getLogger()->info('Soap last response.');
+
+        try {
+            $response = $this->__getLastResponse();
+            $msg = '[Last Response] - Response: '.$response;
+            $this->getLogger()->info($msg);
+
+        } catch (\Exception $e) {
+            $msg = '[Last Response] - Error code: '.$e->getCode().'. Error message: '.$e->getMessage();
+            $this->getLogger()->critical($msg);
+            throw new ApiException($e->getMessage());
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return mixed|null
+     * @throws ApiException
+     */
+    public function getLastResponseHeaders()
+    {
+        $response = null;
+        $this->getLogger()->info('Soap last response headers.');
+
+        try {
+            $response = $this->__getLastResponseHeaders();
+            $msg = '[Last Response headers] - Response: '.$response;
+            $this->getLogger()->info($msg);
+
+        } catch (\Exception $e) {
+            $msg = '[Last Response headers] - Error code: '.$e->getCode().'. Error message: '.$e->getMessage();
+            $this->getLogger()->critical($msg);
             throw new ApiException($e->getMessage());
         }
 
@@ -174,5 +278,20 @@ class SoapClient extends \SoapClient
         $this->secretKey = $secretKey;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param mixed $logger
+     */
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
+    }
 
 }
